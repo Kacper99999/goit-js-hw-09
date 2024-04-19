@@ -12,7 +12,7 @@ start.addEventListener("click", ()=>{
         if(warunek){
         changeColor();
         }
-    },5000)
+    },1000)
 
 });
 

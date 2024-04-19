@@ -3,16 +3,17 @@ import flatpickr from "flatpickr";
 // Dodatkowy import stylów
 import "flatpickr/dist/flatpickr.min.css";
 
+import { Notify } from "notiflix";
+
 const kalendarz = document.querySelector("#datetime-picker");
 const button = document.querySelector("[data-start]");
-button.setAttribute("disabled", "disabled");
+const dayy = document.querySelector("[data-days]");
+const hourr = document.querySelector("[data-hours");
+const minutee = document.querySelector("[data-minutes");
+const secondd = document.querySelector("[data-seconds]");
 let selectedDate = null;
 
-
-let dayy = document.querySelector("[data-days]");
-let hourr = document.querySelector("[data-hours");
-let minutee = document.querySelector("[data-minutes");
-let secondd = document.querySelector("[data-seconds]");
+button.setAttribute("disabled", "disabled");
 
 
 const fp = flatpickr(kalendarz,{
@@ -21,7 +22,6 @@ const fp = flatpickr(kalendarz,{
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-      //console.log(selectedDates[0]);
       selectedDate = selectedDates[0];
       chooseData();
       
@@ -34,7 +34,7 @@ function chooseData(){
         button.removeAttribute("disabled");
     }
     else{
-        window.alert("Please choose a date in the future");        
+        Notify.failure("Please choose a date in the future");      
     }
 };
 
@@ -48,30 +48,40 @@ function convertMs(ms) {
     
     // Remaining days
       const days = Math.floor(ms / day);
-      dayy.textContent = days;
+      addLeadingZero(days,dayy);
     // Remaining hours
       const hours = Math.floor((ms % day) / hour);
-      hourr.textContent = hours; 
+      addLeadingZero(hours,hourr);
     // Remaining minutes
       const minutes = Math.floor(((ms % day) % hour) / minute);
-      minutee.textContent = minutes;
+      addLeadingZero(minutes,minutee);
     // Remaining seconds
       const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-      secondd.textContent = seconds;
+      addLeadingZero(seconds,secondd);
     
       return { days, hours, minutes, seconds };
     }
 
-    button.addEventListener("click",()=>{
-        const interval = setInterval(() => {
-            let time = (selectedDate - new Date)-1000;
-            if(time <= 0){
-                clearInterval(interval);
-            }
-            else{
-                convertMs(time);
-            }
-        },1000);
-    } );
+    function addLeadingZero(time,plaseInDocument){
+      if(time<10){
+        plaseInDocument.textContent = `0${time}`
+      }
+      else{
+        plaseInDocument.textContent = time;
+      }
+    }
+
+  button.addEventListener("click",()=>{
+      button.setAttribute("disabled", "disabled");
+      const interval = setInterval(() => {
+          let time = (selectedDate - new Date)-1000;
+          if(time <= 0){
+              clearInterval(interval);
+          }
+          else{
+              convertMs(time);
+          }
+      },1000);
+  } );
 
     
