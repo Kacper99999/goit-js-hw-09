@@ -22,13 +22,13 @@ function createPromise(position, delay) {
   })
 }
 
-
+let interval
 button.addEventListener("click", (event)=>{
   let amoutValue = amountInput.value;
   event.preventDefault();
   setTimeout(() => {
 
-    setInterval(()=>{
+    interval = setInterval(()=>{
       createPromise(amoutValue,stepInput.value).then(value=>{
         
         // Fulfill
@@ -36,6 +36,9 @@ button.addEventListener("click", (event)=>{
         if(amoutValue > 0 ){
         Notiflix.Notify.success(value);
           amoutValue--;
+        }
+        else{
+          clearInterval(interval);
         }
         
       }).catch(error=>{
@@ -45,6 +48,9 @@ button.addEventListener("click", (event)=>{
         if(amoutValue > 0 ){
         Notiflix.Notify.failure(error);
           amoutValue--;
+        }
+        else{
+          clearInterval(interval);
         }
       })
      },stepInput.value)
