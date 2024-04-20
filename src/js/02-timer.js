@@ -5,18 +5,18 @@ import "flatpickr/dist/flatpickr.min.css";
 
 import { Notify } from "notiflix";
 
-const kalendarz = document.querySelector("#datetime-picker");
+const calendar = document.querySelector("#datetime-picker");
 const button = document.querySelector("[data-start]");
-const dayy = document.querySelector("[data-days]");
-const hourr = document.querySelector("[data-hours");
-const minutee = document.querySelector("[data-minutes");
-const secondd = document.querySelector("[data-seconds]");
+const dayValue = document.querySelector("[data-days]");
+const hourValue = document.querySelector("[data-hours");
+const minutesValue = document.querySelector("[data-minutes");
+const secondsValue = document.querySelector("[data-seconds]");
 let selectedDate = null;
 
 button.setAttribute("disabled", "disabled");
 
 
-const fp = flatpickr(kalendarz,{
+const fp = flatpickr(calendar,{
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
@@ -48,16 +48,16 @@ function convertMs(ms) {
     
     // Remaining days
       const days = Math.floor(ms / day);
-      addLeadingZero(days,dayy);
+      addLeadingZero(days,dayValue);
     // Remaining hours
       const hours = Math.floor((ms % day) / hour);
-      addLeadingZero(hours,hourr);
+      addLeadingZero(hours,hourValue);
     // Remaining minutes
       const minutes = Math.floor(((ms % day) % hour) / minute);
-      addLeadingZero(minutes,minutee);
+      addLeadingZero(minutes,minutesValue);
     // Remaining seconds
       const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-      addLeadingZero(seconds,secondd);
+      addLeadingZero(seconds,secondsValue);
     
       return { days, hours, minutes, seconds };
     }
